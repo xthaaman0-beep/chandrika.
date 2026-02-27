@@ -1,2 +1,135 @@
-# chandrika.
-A digital storybook of memories, locked away for someone special. Happy Birthday, Chandrika. ✨
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Chandrika Acharya</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root { --book-h: 580px; --book-w: 380px; --pink-main: #ff9a9e; }
+        body { background-color: #fff0f3; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; perspective: 2000px; font-family: 'Georgia', serif; overflow: hidden; }
+        .cover-bg { position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); overflow: hidden; z-index: -1; border-radius: 0 15px 15px 0; }
+        .heart-float { position: absolute; bottom: -20px; color: rgba(255, 255, 255, 0.4); animation: floatUp 6s linear infinite; }
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-600px) rotate(360deg); opacity: 0; } }
+        .book { position: relative; width: var(--book-w); height: var(--book-h); transform-style: preserve-3d; }
+        .page { position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-color: white; transform-origin: left; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1); z-index: 1; }
+        .flipped { transform: rotateY(-180deg); }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; text-align: center; border: 1px solid #f0f0f0; overflow-y: auto; }
+        .back { transform: rotateY(180deg); background-color: #fdfdfd; }
+        .lock-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.98); z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; border-radius: 0 15px 15px 0; }
+        .lock-overlay.unlocked { display: none; }
+        input { padding: 10px; margin: 15px 0; border: 2px solid var(--pink-main); border-radius: 10px; width: 80%; outline: none; }
+        .photo-frame img { width: 100%; height: 230px; object-fit: cover; border-radius: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .note { font-size: 0.9rem; color: #444; line-height: 1.5; font-style: italic; margin-top: 10px; }
+        .letter-content { text-align: left; font-size: 0.95rem; line-height: 1.6; color: #333; background: #fffcf5; padding: 15px; border-radius: 5px; border: 1px dashed #decba4; }
+        .btn { padding: 12px 22px; background: var(--pink-main); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; flex-shrink: 0; }
+        #p1 { z-index: 6; } #p2 { z-index: 5; } #p3 { z-index: 4; } #p4 { z-index: 3; } #p5 { z-index: 2; } #p6 { z-index: 1; }
+    </style>
+</head>
+<body>
+    <div class="book">
+        <div class="page" id="p1">
+            <div class="front" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white;">
+                <div class="cover-bg" id="heart-bg"></div>
+                <div style="margin-top: 40%; z-index: 1;">
+                    <h1 style="font-size: 2rem;">Happy Birthday Chandrika</h1>
+                    <p>A locked book of memories...</p>
+                    <div style="font-size: 3rem;">🔐</div>
+                    <button class="btn" onclick="flip(1)">Open My Heart →</button>
+                </div>
+            </div>
+            <div class="back"></div>
+        </div>
+        <div class="page" id="p2">
+            <div class="front">
+                <div class="lock-overlay" id="lock1">
+                    <h3>Question #1</h3>
+                    <p>What class did we first meet?</p>
+                    <input type="text" id="ans1" placeholder="Type answer...">
+                    <button class="btn" onclick="checkAnswer(1, '9')">Unlock Memory</button>
+                </div>
+                <div class="photo-frame" onclick="flowerPower('🌹')"><img src="photo1.jpeg"></div>
+                <p class="note"><b>Memory #1</b><br>Our journey truly began in Grade 9. I still carry the sound of your voice from those days in my heart.</p>
+                <button class="btn" onclick="flip(2)">Next Page →</button>
+            </div>
+            <div class="back"></div>
+        </div>
+        <div class="page" id="p3">
+            <div class="front">
+                <div class="lock-overlay" id="lock2">
+                    <h3>Question #2</h3>
+                    <p>What is the best part about you?</p>
+                    <input type="text" id="ans2" placeholder="Type answer...">
+                    <button class="btn" onclick="checkAnswer(2, 'your smile')">Unlock Memory</button>
+                </div>
+                <div class="photo-frame" onclick="flowerPower('🌼')"><img src="photo2.jpeg"></div>
+                <p class="note"><b>Memory #2</b><br>No matter where we go, your smile remains the most beautiful thing I've ever seen.</p>
+                <button class="btn" onclick="flip(3)">Next Page →</button>
+            </div>
+            <div class="back"></div>
+        </div>
+        <div class="page" id="p4">
+            <div class="front">
+                <div class="lock-overlay" id="lock3">
+                    <h3>Question #3</h3>
+                    <p>What was your favorite song in Grade 9?</p>
+                    <input type="text" id="ans3" placeholder="Type answer...">
+                    <button class="btn" onclick="checkAnswer(3, 'its you')">Unlock Memory</button>
+                </div>
+                <div class="photo-frame" onclick="flowerPower('🌸')"><img src="photo3.jpeg"></div>
+                <p class="note"><b>Memory #3</b><br>"It's You" - Because it has always been you, from then until now.</p>
+                <button class="btn" onclick="flip(4)">Read My Letter →</button>
+            </div>
+            <div class="back"></div>
+        </div>
+        <div class="page" id="p5">
+            <div class="front">
+                <h3 style="color: var(--pink-main); margin-top: 0;">A Letter for You</h3>
+                <div class="letter-content">
+                    Dearest Chandrika,<br><br>
+                    I wanted to take a moment to tell you everything I feel. Since Grade 8, you've been a constant light in my life. I've watched you grow, and honestly, I've admired every version of you I've met along the way. <br><br>
+                    You aren't just a "friend" to me—you are the person I look for in every room. You're the one whose voice calms my mind and whose smile makes even the hardest days feel worth it. Your kindness, your laugh, and the way you see the world... everything about you is rare. <br><br>
+                    Thank you for being you, and for letting me be a part of your story. I hope today you realize just how much you are cherished.<br><br>
+                    Always yours,<br>
+                    <b>Aman</b>
+                </div>
+                <button class="btn" onclick="flip(5)">Final Surprise →</button>
+            </div>
+            <div class="back"></div>
+        </div>
+        <div class="page" id="p6">
+            <div class="front">
+                <h2 style="color: var(--pink-main);">Happy Birthday!</h2>
+                <div style="font-size: 3rem; cursor: pointer;" onclick="flowerPower('🤍')">🕊️</div>
+                <p class="note" style="font-size: 1.1rem;">
+                    I am so happy to have you as a friend, Chandrika. But honestly, I would be even more happy if I have you by my side.
+                </p>
+                <p style="font-size: 0.8rem; color: #888; margin-top: 20px;">
+                    <i>"In all the world, there is no heart for me like yours."</i>
+                </p>
+                <button class="btn" onclick="closeBook()">Close Book 🔒</button>
+            </div>
+            <div class="back"></div>
+        </div>
+    </div>
+    <script>
+        const bg = document.getElementById('heart-bg');
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-float'; heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            bg.appendChild(heart);
+        }
+        function checkAnswer(id, correct) {
+            const val = document.getElementById('ans' + id).value.toLowerCase().trim();
+            if(val === correct.toLowerCase()) { document.getElementById('lock' + id).classList.add('unlocked'); launchConfetti(); }
+            else { alert("Incorrect! Think back to our Grade 9 days..."); }
+        }
+        function flip(n) { document.getElementById('p' + n).classList.add('flipped'); if(n===1) launchConfetti(); }
+        function closeBook() { for(let i=5; i>=1; i--) { setTimeout(()=> { document.getElementById('p'+i).classList.remove('flipped'); }, (5-i)*150); } }
+        function flowerPower(emoji) { const shape = confetti.shapeFromText({ text: emoji, scalar: 3 }); confetti({ shapes: [shape], particleCount: 40, spread: 160, origin: { y: 0.5 } }); }
+        function launchConfetti() { confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ffffff', '#ffccd5', '#ff9a9e'] }); }
+    </script>
+</body>
+</html>
